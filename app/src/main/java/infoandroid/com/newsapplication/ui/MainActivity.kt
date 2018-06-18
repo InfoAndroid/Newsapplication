@@ -6,8 +6,10 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import com.ahmadrosid.svgloader.SvgLoader
 import infoandroid.com.newsapplication.R
 import infoandroid.com.newsapplication.adapter.NewsAdapter
 import infoandroid.com.newsapplication.models.Article
@@ -21,13 +23,14 @@ import kotlinx.android.synthetic.main.content_main.*
 import com.google.gson.Gson
 import infoandroid.com.newsapplication.adapter.CountryAdapter
 import infoandroid.com.newsapplication.models.CountriesResponce.ResponseCountries
+import infoandroid.com.newsapplication.restCall.OnItemClickListener
 import java.util.*
 
 
-class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigationItemSelectedListener,OnItemClickListener {
 
 
-     var newsList = java.util.ArrayList<Article>()
+    var newsList = java.util.ArrayList<Article>()
      var countriesList = java.util.ArrayList<ResponseCountries>()
 
     private var restClient: RestClass? = null
@@ -44,18 +47,27 @@ class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigatio
 
         restClient = RestClass(this@MainActivity)
         restClient?.callback(this)?.getCountresInformation()
+        DeasboardApiCall()
     }
 
     private fun setAdapter() {
-        recylerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        if (newsList.size!=0){
+            recylerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+            val adapter = NewsAdapter(newsList, this)
+            noData.visibility=View.GONE
+            recylerView.visibility=View.VISIBLE
+            recylerView.adapter = adapter
+        }else{
+            recylerView.visibility=View.GONE
+            noData.visibility=View.VISIBLE
+        }
 
-        val adapter = NewsAdapter(newsList, this)
-        recylerView.adapter = adapter
+
     }
     private fun setCountryAdapter() {
         lst_menu_items.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
 
-        val adapter = CountryAdapter(countriesList, this)
+        val adapter = CountryAdapter(countriesList, this,this)
         lst_menu_items.adapter = adapter
     }
 
@@ -95,6 +107,10 @@ class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigatio
                 val value = responce as NewsModel
                 newsList = value.articles
                 setAdapter()
+            }ApiID.NEWA_COUNTRY_API ->{
+                val value = responce as NewsModel
+                newsList = value.articles
+                setAdapter()
             }
         }
 
@@ -103,5 +119,18 @@ class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigatio
     override fun onFailearResponce(apiId: Int, error: String) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        SvgLoader.pluck().close();
+    }
+    override fun onItemClick(view: View, position: Int) {
+        DeasboardApiCall(countriesList[position].alpha2Code!!)
+        drawer_layout.closeDrawer(GravityCompat.START)
+    }
+    fun DeasboardApiCall(value:String="IN"){
+        restClient?.callback(this)?.getCountryNews(value)
+    }
+
 }
 

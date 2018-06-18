@@ -4,6 +4,7 @@ class ApiID {
     companion object {
         val COUNTRIE_API = 1
         val NEWA_API = 2
+        val NEWA_COUNTRY_API = 3
 
 
     }
