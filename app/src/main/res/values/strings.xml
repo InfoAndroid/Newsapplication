@@ -6,4 +6,25 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+
+    <string name="business">business</string>
+    <string name="entertainment">entertainment</string>
+    <string name="health">health</string>
+    <string name="Science">Science</string>
+    <string name="Sport">Sport</string>
+    <string name="technology">Technology</string>
+    <string name="headlines">Headlines</string>
+
+
+
+
+    <string-array name="Category">
+        <item>@string/business</item>
+        <item>@string/entertainment</item>
+        <item>@string/health</item>
+        <item>@string/Sport</item>
+        <item>@string/technology</item>
+        <item>@string/headlines</item>
+    </string-array>
 </resources>
