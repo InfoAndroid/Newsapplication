@@ -1,6 +1,7 @@
 package infoandroid.com.newsapplication.ui.activitys
 
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
@@ -30,6 +31,7 @@ import infoandroid.com.newsapplication.models.CountriesResponce.ResponseCountrie
 import infoandroid.com.newsapplication.restCall.OnItemClickListener
 import infoandroid.com.newsapplication.ui.fragments.CategoryFragment
 import infoandroid.com.newsapplication.ui.fragments.HeadlinesFragment
+import org.jetbrains.anko.progressDialog
 import java.util.*
 
 
@@ -41,7 +43,7 @@ class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigatio
     var newsModel: NewsModel? = null
    public var countryCode:String = "IN"
 
-
+   // val dialog = progressDialog(message = "Please wait a bit…", title = "Fetching data")
     private var restClient: RestClass? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +65,8 @@ class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigatio
 
        restClient = RestClass(this@MainActivity)
           restClient?.callback(this)?.getCountresInformation()
-       // DeasboardApiCall()
+
+        // DeasboardApiCall()
     }
 
     override fun onResume() {
@@ -119,6 +122,7 @@ class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigatio
     }
 
     override fun onSuccessResponce(apiId: Int, responce: Any) {
+
         when(apiId){
             ApiID.COUNTRIE_API ->{
                 countriesList = responce as ArrayList<ResponseCountries>
@@ -139,6 +143,7 @@ class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigatio
     }
 
     override fun onFailearResponce(apiId: Int, error: String) {
+
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
     }
 

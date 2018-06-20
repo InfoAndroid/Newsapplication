@@ -17,8 +17,6 @@
     <string name="headlines">Headlines</string>
 
 
-
-
     <string-array name="Category">
         <item>@string/business</item>
         <item>@string/entertainment</item>
