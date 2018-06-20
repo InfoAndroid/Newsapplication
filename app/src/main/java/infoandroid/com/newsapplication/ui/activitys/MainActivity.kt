@@ -1,4 +1,5 @@
-package infoandroid.com.newsapplication.ui
+package infoandroid.com.newsapplication.ui.activitys
+
 
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -10,11 +11,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.TableLayout
 import android.widget.Toast
 import com.ahmadrosid.svgloader.SvgLoader
+import infoandroid.com.newsapplication.PreferenceHelper.defaultPrefs
 import infoandroid.com.newsapplication.R
-import infoandroid.com.newsapplication.R.id.pager
 import infoandroid.com.newsapplication.adapter.NewsAdapter
 import infoandroid.com.newsapplication.models.Article
 import infoandroid.com.newsapplication.models.NewsModel
@@ -28,6 +28,8 @@ import infoandroid.com.newsapplication.adapter.CountryAdapter
 import infoandroid.com.newsapplication.adapter.HeadlinePagerAdapter
 import infoandroid.com.newsapplication.models.CountriesResponce.ResponseCountries
 import infoandroid.com.newsapplication.restCall.OnItemClickListener
+import infoandroid.com.newsapplication.ui.fragments.CategoryFragment
+import infoandroid.com.newsapplication.ui.fragments.HeadlinesFragment
 import java.util.*
 
 
@@ -37,6 +39,8 @@ class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigatio
     var newsList = java.util.ArrayList<Article>()
      var countriesList = java.util.ArrayList<ResponseCountries>()
     var newsModel: NewsModel? = null
+   public var countryCode:String = "IN"
+
 
     private var restClient: RestClass? = null
 
@@ -44,6 +48,7 @@ class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigatio
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
 
         var toggle = ActionBarDrawerToggle(this,drawer_layout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
@@ -57,8 +62,13 @@ class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigatio
 
 
        restClient = RestClass(this@MainActivity)
-        /*  restClient?.callback(this)?.getCountresInformation()*/
-        DeasboardApiCall()
+          restClient?.callback(this)?.getCountresInformation()
+       // DeasboardApiCall()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupViewPager(pager)
     }
 
     private fun setAdapter() {
@@ -121,7 +131,7 @@ class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigatio
             }ApiID.NEWA_COUNTRY_API ->{
                  newsModel = responce as NewsModel
                 newsList = newsModel!!.articles
-            setupViewPager(pager)
+
               //  setAdapter()
             }
         }
@@ -136,33 +146,36 @@ class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigatio
         super.onDestroy()
         SvgLoader.pluck().close();
     }
+
     override fun onItemClick(view: View, position: Int) {
-        DeasboardApiCall(countriesList[position].alpha2Code!!)
+
+        countryCode=countriesList[position].alpha2Code!!
         drawer_layout.closeDrawer(GravityCompat.START)
+       setupViewPager(pager,countriesList[position].alpha2Code!!)
     }
     fun DeasboardApiCall(value:String="IN"){
         restClient?.callback(this)?.getCountryNews(value)
     }
-    private fun setupViewPager(pager: ViewPager?) {
+    private fun setupViewPager(pager: ViewPager?,value:String="IN") {
         val adapter = HeadlinePagerAdapter(supportFragmentManager)
 
-        val f1 = HeadlinesFragment.newInstance("HeadlinesFragment")
+        val f1 = HeadlinesFragment.newInstance("HeadlinesFragment",value)
         adapter.addFragment(f1, "Headlines")
 
-        val f2 = CategoryFragment.newInstance(newsModel!!)
+        val f2 = CategoryFragment.newInstance("Business")
         adapter.addFragment(f2, "Business")
-        val f3 = CategoryFragment.newInstance(newsModel!!)
+        val f3 = CategoryFragment.newInstance("Entertainment")
         adapter.addFragment(f3, "Entertainment")
-        val f4 = CategoryFragment.newInstance(newsModel!!)
-        adapter.addFragment(f4, "Health")
+        val f4 = CategoryFragment.newInstance("Science")
+        adapter.addFragment(f4, "Science")
 
 
-        val f5 = CategoryFragment.newInstance(newsModel!!)
-        adapter.addFragment(f5, "Sport")
+        val f5 = CategoryFragment.newInstance("Sports")
+        adapter.addFragment(f5, "Sports")
 
-        val f6 = CategoryFragment.newInstance(newsModel!!)
+        val f6 = CategoryFragment.newInstance("Technology")
         adapter.addFragment(f6, "Technology")
-        val f7 = CategoryFragment.newInstance(newsModel!!)
+        val f7 = CategoryFragment.newInstance("Health")
         adapter.addFragment(f7, "Health")
 
 

@@ -19,6 +19,12 @@ interface NewsAPIService {
     fun getCountryNews(@Query("country") source: String,
                 @Query("apiKey") apiKey: String):Call<NewsModel>
 
+    @GET("/v2/top-headlines")
+    fun getCategoryNews(@Query("country") source: String,
+                        @Query("category") category: String,
+                       @Query("apiKey") apiKey: String):Call<NewsModel>
+
+
 
 
 }

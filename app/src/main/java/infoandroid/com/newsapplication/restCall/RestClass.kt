@@ -79,4 +79,23 @@ class RestClass (context: Context) {
         })
     }
 
+    fun getCategoryNews(alpha2Code: String,category: String) {
+        val call = getApi().getCategoryNews(alpha2Code,category,"bff73f585b2d4936bad89b8b887e500b")
+
+        call.enqueue(object : Callback<NewsModel> {
+            override fun onResponse(call: Call<NewsModel>?, response: Response<NewsModel>?) {
+                if (response != null) {
+                    responseListener.onSuccessResponce(ApiID.NEWA_COUNTRY_API, response.body()!!)
+                }
+            }
+
+
+
+            override fun onFailure(call: Call<NewsModel>, t: Throwable) {
+                responseListener.onFailearResponce(ApiID.NEWA_COUNTRY_API, t.message!!)
+            }
+
+        })
+    }
+
 }
