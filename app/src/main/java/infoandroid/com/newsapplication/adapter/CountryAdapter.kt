@@ -36,7 +36,7 @@ class CountryAdapter (val items : ArrayList<ResponseCountries>, val context: Con
         SvgLoader.pluck()
                 .with(context as Activity)
                 .setPlaceHolder(R.mipmap.ic_launcher, R.mipmap.ic_launcher)
-                .load(items[position].flag, holder.image);
+                .load(items[position].flag, holder.image)
 
         holder.view.setOnClickListener(View.OnClickListener {
             mListener?.onItemClick(holder.image,position)

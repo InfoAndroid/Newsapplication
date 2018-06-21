@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 ext.support_version = '27.1.1'
 ext.retrofit_version = '2.3.0'
 ext.anko_version = '0.10.5'
-/*ext.apiKey = 'bff73f585b2d4936bad89b8b887e500b'*/
+
 
 android {
     compileSdkVersion 27
