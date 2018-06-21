@@ -28,7 +28,7 @@ class NewsAdapter (val items : ArrayList<Article>, val context: Context) : Recyc
         holder.newsText.text=items[position].description
         holder.newsTitle.text=items[position].title
 
-       Picasso.with(context).load(items[position].urlToImage).error(R.mipmap.ic_launcher).into(holder.newsImage);
+       Picasso.with(context).load(items[position].urlToImage).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(holder.newsImage);
 
         holder.view.setOnClickListener(View.OnClickListener {
             val intent = Intent(context, WebViewActivity::class.java)

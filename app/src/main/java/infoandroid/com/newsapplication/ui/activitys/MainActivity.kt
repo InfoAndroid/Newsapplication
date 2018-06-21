@@ -37,13 +37,11 @@ import java.util.*
 
 class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigationItemSelectedListener,OnItemClickListener {
 
-
     var newsList = java.util.ArrayList<Article>()
      var countriesList = java.util.ArrayList<ResponseCountries>()
     var newsModel: NewsModel? = null
-   public var countryCode:String = "IN"
+    var countryCode:String = "IN"
 
-   // val dialog = progressDialog(message = "Please wait a bit…", title = "Fetching data")
     private var restClient: RestClass? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,43 +49,23 @@ class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigatio
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-
         var toggle = ActionBarDrawerToggle(this,drawer_layout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
 
-
-
         tabs.setupWithViewPager(pager)
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-
-       restClient = RestClass(this@MainActivity)
+          restClient = RestClass(this@MainActivity)
           restClient?.callback(this)?.getCountresInformation()
 
-        // DeasboardApiCall()
     }
-
     override fun onResume() {
         super.onResume()
         setupViewPager(pager)
     }
 
-    private fun setAdapter() {
-        if (newsList.size!=0){
-            recylerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-            val adapter = NewsAdapter(newsList, this)
-            noData.visibility=View.GONE
-            recylerView.visibility=View.VISIBLE
-            recylerView.adapter = adapter
-        }else{
-            recylerView.visibility=View.GONE
-            noData.visibility=View.VISIBLE
-        }
-
-
-    }
     private fun setCountryAdapter() {
         lst_menu_items.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
 
@@ -98,7 +76,6 @@ class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigatio
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
      when(item.itemId){
          R.id.nav_camera ->{
-
          }
 
          R.id.nav_gallery ->{
@@ -153,35 +130,28 @@ class MainActivity : BaseActivity(), ResponseListener,NavigationView.OnNavigatio
     }
 
     override fun onItemClick(view: View, position: Int) {
-
         countryCode=countriesList[position].alpha2Code!!
         drawer_layout.closeDrawer(GravityCompat.START)
        setupViewPager(pager,countriesList[position].alpha2Code!!)
     }
-    fun DeasboardApiCall(value:String="IN"){
-        restClient?.callback(this)?.getCountryNews(value)
-    }
+
     private fun setupViewPager(pager: ViewPager?,value:String="IN") {
         val adapter = HeadlinePagerAdapter(supportFragmentManager)
 
-        val f1 = HeadlinesFragment.newInstance("HeadlinesFragment",value)
-        adapter.addFragment(f1, "Headlines")
-
-        val f2 = CategoryFragment.newInstance("Business")
-        adapter.addFragment(f2, "Business")
-        val f3 = CategoryFragment.newInstance("Entertainment")
-        adapter.addFragment(f3, "Entertainment")
-        val f4 = CategoryFragment.newInstance("Science")
-        adapter.addFragment(f4, "Science")
-
-
-        val f5 = CategoryFragment.newInstance("Sports")
-        adapter.addFragment(f5, "Sports")
-
-        val f6 = CategoryFragment.newInstance("Technology")
-        adapter.addFragment(f6, "Technology")
-        val f7 = CategoryFragment.newInstance("Health")
-        adapter.addFragment(f7, "Health")
+        val f1 = HeadlinesFragment.newInstance(getString(R.string.headlines),value)
+        adapter.addFragment(f1, getString(R.string.headlines))
+        val f2 = CategoryFragment.newInstance(getString(R.string.business))
+        adapter.addFragment(f2, getString(R.string.business))
+        val f3 = CategoryFragment.newInstance(getString(R.string.entertainment))
+        adapter.addFragment(f3, getString(R.string.entertainment))
+        val f4 = CategoryFragment.newInstance(getString(R.string.Science))
+        adapter.addFragment(f4, getString(R.string.Science))
+        val f5 = CategoryFragment.newInstance(getString(R.string.Sport))
+        adapter.addFragment(f5, getString(R.string.Sport))
+        val f6 = CategoryFragment.newInstance(getString(R.string.technology))
+        adapter.addFragment(f6, getString(R.string.technology))
+        val f7 = CategoryFragment.newInstance(getString(R.string.health))
+        adapter.addFragment(f7, getString(R.string.health))
 
 
         pager?.adapter = adapter

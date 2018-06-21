@@ -5,22 +5,16 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 
 object PreferenceHelper {
-    val PREFS_FILENAME = "prefs"
 
+    fun defaultPrefs(context: Context): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
-    fun defaultPrefs(context: Context): SharedPreferences
-            = PreferenceManager.getDefaultSharedPreferences(context)
-
-
-    fun customPrefs(context: Context, name: String): SharedPreferences
-            = context.getSharedPreferences(name, Context.MODE_PRIVATE)
+    fun customPrefs(context: Context, name: String): SharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
 
     inline fun SharedPreferences.edit(operation: (SharedPreferences.Editor) -> Unit) {
         val editor = this.edit()
         operation(editor)
         editor.apply()
     }
-
     fun SharedPreferences.setValue(key: String, value: Any?) {
         when (value) {
             is String? -> edit({ it.putString(key, value) })
@@ -31,7 +25,6 @@ object PreferenceHelper {
             else -> throw UnsupportedOperationException("Not yet implemented")
         }
     }
-
     operator inline fun <reified T : Any> SharedPreferences.get(key: String, defaultValue: T? = null): T? {
         return when (T::class) {
             String::class -> getString(key, defaultValue as? String) as T?

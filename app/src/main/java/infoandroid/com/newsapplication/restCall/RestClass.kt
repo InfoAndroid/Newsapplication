@@ -1,6 +1,9 @@
 package infoandroid.com.newsapplication.restCall
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.os.Build
+import infoandroid.com.newsapplication.BuildConfig
 import infoandroid.com.newsapplication.models.CountriesResponce.ResponseCountries
 import infoandroid.com.newsapplication.models.NewsModel
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -35,7 +38,7 @@ var context : Context=context
     fun getNews(count: Int) {
 
        dialog.show()
-        val call = getApi().getNews("associated-press","bff73f585b2d4936bad89b8b887e500b")
+        val call = getApi().getNews("associated-press",BuildConfig.API_KEY)
 
         call.enqueue(object : Callback<NewsModel> {
             override fun onResponse(call: Call<NewsModel>?, response: Response<NewsModel>?) {
@@ -72,7 +75,7 @@ var context : Context=context
 
     fun getCountryNews(alpha2Code: String) {
         dialog.show()
-        val call = getApi().getCountryNews(alpha2Code,"bff73f585b2d4936bad89b8b887e500b")
+        val call = getApi().getCountryNews(alpha2Code,BuildConfig.API_KEY)
 
         call.enqueue(object : Callback<NewsModel> {
             override fun onResponse(call: Call<NewsModel>?, response: Response<NewsModel>?) {
@@ -94,7 +97,7 @@ var context : Context=context
 
     fun getCategoryNews(alpha2Code: String,category: String) {
         dialog.show()
-        val call = getApi().getCategoryNews(alpha2Code,category,"bff73f585b2d4936bad89b8b887e500b")
+        val call = getApi().getCategoryNews(alpha2Code,category,BuildConfig.API_KEY)
 
         call.enqueue(object : Callback<NewsModel> {
             override fun onResponse(call: Call<NewsModel>?, response: Response<NewsModel>?) {

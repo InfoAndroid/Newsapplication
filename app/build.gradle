@@ -7,6 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 ext.support_version = '27.1.1'
 ext.retrofit_version = '2.3.0'
 ext.anko_version = '0.10.5'
+/*ext.apiKey = 'bff73f585b2d4936bad89b8b887e500b'*/
 
 android {
     compileSdkVersion 27
@@ -24,6 +25,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+    }
+    buildTypes.each{
+        it.buildConfigField 'String', 'API_KEY', apiKey
     }
 }
 
@@ -47,9 +52,6 @@ dependencies {
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-    implementation 'com.squareup.moshi:moshi:1.6.0'
     implementation 'com.google.code.gson:gson:2.7'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.3.1'
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
