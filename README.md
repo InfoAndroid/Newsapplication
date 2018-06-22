@@ -15,3 +15,7 @@ Step 3 :- Update the API key inside "gradle.properties" file with your own. You 
 # Screenshots
 
 ![This is drowe](https://github.com/InfoAndroid/Newsapplication/blob/master/Screenshots/1.png) ![This is drowe](https://github.com/InfoAndroid/Newsapplication/blob/master/Screenshots/2.png)
+
+# License
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
