@@ -13,16 +13,16 @@ data class ResponseCountries(
 	val nativeName: String? = null,
 
 	@field:SerializedName("capital")
-	val capital: String? = null,
+	var capital: String? = null,
 
 	@field:SerializedName("demonym")
 	val demonym: String? = null,
 
 	@field:SerializedName("flag")
-	val flag: String? = null,
+	var flag: String? = null,
 
 	@field:SerializedName("alpha2Code")
-	val alpha2Code: String? = null,
+	var alpha2Code: String? = null,
 
 	@field:SerializedName("languages")
 	val languages: List<LanguagesItem?>? = null,
@@ -31,7 +31,7 @@ data class ResponseCountries(
 	val borders: List<String?>? = null,
 
 	@field:SerializedName("subregion")
-	val subregion: String? = null,
+	var subregion: String? = null,
 
 	@field:SerializedName("callingCodes")
 	val callingCodes: List<String?>? = null,
@@ -43,7 +43,7 @@ data class ResponseCountries(
 	val gini: Double? = null,
 
 	@field:SerializedName("population")
-	val population: Int? = null,
+	var population: Double? = null,
 
 	@field:SerializedName("numericCode")
 	val numericCode: String? = null,
@@ -64,13 +64,13 @@ data class ResponseCountries(
 	val translations: Translations? = null,
 
 	@field:SerializedName("name")
-	val name: String? = null,
+	var name: String? = null,
 
 	@field:SerializedName("altSpellings")
 	val altSpellings: List<String?>? = null,
 
 	@field:SerializedName("region")
-	val region: String? = null,
+	var region: String? = null,
 
 	@field:SerializedName("latlng")
 	val latlng: List<Double?>? = null,
